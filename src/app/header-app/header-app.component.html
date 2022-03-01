@@ -1,0 +1,9 @@
+<div class="header-container">
+    <div class="logo-and-text">
+        <img src="assets/images/Crossreflogo.svg" alt="">
+    </div>
+    <div class="search-field">
+        <input id="search" type="search" placeholder="Search..." [(ngModel)]="searchVal" (keyup)="applySearch($event, searchVal)" (ngModelChange)="clearSearch(searchVal)">
+        <button class="button" (click)="applySearch($event, searchVal)"><i class="pi pi-search"></i></button>
+    </div>
+</div>

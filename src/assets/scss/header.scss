@@ -1,0 +1,39 @@
+#header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: $primary-color;
+    height: 125px;
+    z-index: 99999;
+    .header-container {
+        height: 100%;
+        .logo-and-text {
+            text-align: center;
+            img {
+                height: 75px;
+            }
+        }
+        .search-field {
+            position: absolute;
+            bottom: 15px;
+            text-align: center;
+            width: 100%;
+            input {
+                border-radius: 6px 0px 0px 6px;
+                height: 30px;
+                width: 40%;
+                padding-left: 10px;
+                border: none;
+            }
+            input:focus {
+                outline-width: 0;
+            }
+            button {
+                border-radius: 0px 6px 6px 0px;
+                height: 30px;
+                width: 30px;
+                border: none;
+            }
+        }
+    }
+}

@@ -1,0 +1,112 @@
+
+.subtitle {
+    word-break: unset;
+}
+
+.body {
+    margin-top: 150px;
+    .main-content {
+        // loading spinner
+        #main-spinner {
+            padding-top: 15%;
+        }
+        #dialog-spinner {
+            padding-top: 10%;
+        }
+        #main-spinner,#dialog-spinner {
+            .loader {
+                border: 10px solid #eeeeee;
+                border-top: 10px solid $accent-color;
+                border-radius: 50%;
+                width: 100px;
+                height: 100px;
+                animation: spin 1s linear infinite;
+                margin: auto;
+              }
+              
+              @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+              }
+        }
+    }
+}
+.container {
+    .card-group {
+        width: 100%;
+        
+        .card {
+            position: relative;
+            top: 0;
+            transition: top ease 0.1s;
+            .item-details {
+                line-height: 1;
+                font-size: .85rem;
+                .author-data {
+                    line-height: 1;
+                    .section-title {
+                        min-width: 48px;
+                    }
+                    .section-title-plural {
+                        min-width: 55px;
+                    }
+                }
+                .publication-info {
+                    line-height: 1;
+                    .publish-date-title,.publisher-title {
+                        min-width: 65px;
+                    }
+                }
+            }
+        }
+        .card:hover {
+            top: -3px;
+            box-shadow: 4px 4px 4px 1px rgba(0,0,0,0.2);
+        }
+    }
+}
+
+p-dialog {
+    .p-dialog {
+        max-height: 65%;
+        .p-dialog-header {
+            padding: .75rem 1.5rem .75rem 1.5rem;
+        }
+    }
+    .dialog-content {
+        .dialog-author-data {
+            line-height: 1;
+            .section-title {
+                min-width: 48px;
+                font-weight: 500;
+                color: $secondary-grey;
+            }
+            .section-title-plural {
+                min-width: 55px;
+            }
+        }
+        .section-data {
+            max-height: 175px;
+            overflow: hidden;
+            margin-bottom: 5px;
+            .section-title {
+                font-weight: 500;
+                color: $secondary-grey;
+            }
+        }
+        .section-data-expanded {
+            max-height: unset;
+        }
+        .description-expand {
+            float: right;
+        }
+    }
+    .dialog-footer {
+        text-align: center;
+        button {
+            background-color: #032B43 !important;
+            color: $white !important;
+            border: none;
+        }
+    }
+}

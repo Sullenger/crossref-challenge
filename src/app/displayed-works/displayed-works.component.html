@@ -1,0 +1,117 @@
+<div class="body">
+    <div class="main-content">
+        <div class="content-container mt-6 mx-auto">
+            <div id="main-spinner" *ngIf="!dataLoaded" class="loading-spinner">
+                <div class="loader"></div>
+            </div>
+            <div class="container" *ngIf="dataLoaded">
+                <p class="mb-4 ml-3">Total Results: {{ totalResults | number }}</p>
+                <div class="card-group columns is-flex-direction-column">
+                    <a class="card column is-full is-four-fifths-mobile mx-auto mb-2" *ngFor="let work of worksList" (click)="showDialog(work)">
+                        <h1 class="title is-6 mb-2">{{work.title}}</h1>
+                        <div class="item-details ml-4">
+                            <div class="author-data mb-1 is-flex" *ngIf="work.author">
+                                <p [ngClass]="{'section-title-plural':work.author.length > 1}"
+                                    class="section-title pr-1">Author<span *ngIf="work.author.length > 1">s</span>:</p>
+                                <div class="authors is-flex is-flex-wrap-wrap">
+                                    <p class="pr-1" *ngFor="let name of work.author, last as lastIndex">
+                                        {{name.given}} {{name.family}}<span *ngIf="!lastIndex">,</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="publication-info is-flex is-flex-wrap-wrap">
+                                <div class="publish-date is-flex pr-5" *ngIf="work.published">
+                                    <p class="publish-date-title pr-1">Published: </p>
+                                    <p>{{work.published['date-parts'][0][1]}}/{{work.published['date-parts'][0][0]}}</p>
+                                </div>
+                                <div class="publisher is-flex" *ngIf="work.publisher">
+                                    <p class="publisher-title pr-1">Publisher: </p>
+                                    <p>{{work.publisher}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="pagination-content" [ngClass]="{'is-hidden': !dataLoaded}" *ngIf="triggerSearch">
+                <p-paginator [rows]="20" [totalRecords]="totalPages" (onPageChange)="paginate($event)" [showFirstLastIcon]="false" #paginator></p-paginator>
+            </div>
+
+            <p-dialog
+            header="{{selectedWorkRes.title}}" [(visible)]="displayDialog" [breakpoints]="{'960px': '75vw', '640px': '90vw'}"
+            [style]="{width: '66vw'}" *ngIf="selectedWorkRes" [draggable]="false">
+                <div id="dialog-spinner" *ngIf="!dialogDataLoaded" class="loading-spinner">
+                    <div class="loader"></div>
+                </div>
+                <div class="dialog-content" *ngIf="dialogDataLoaded">
+                    <div class="dialog-author-data mb-1 is-flex is-flex-wrap-wrap" *ngIf="selectedWorkRes.author">
+                        <p [ngClass]="{'section-title-plural':selectedWorkRes.author.length > 1}"
+                            class="section-title pr-1">Author<span *ngIf="selectedWorkRes.author.length > 1">s</span>:</p>
+                        <div class="authors is-flex is-flex-wrap-wrap">
+                            <p class="pr-1" *ngFor="let name of selectedWorkRes.author, last as lastIndex">
+                                {{name.given}} {{name.family}}<span *ngIf="!lastIndex">,</span>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="publication-information is-flex is-flex-wrap-wrap">
+                        <div class="section-data pr-4 is-flex is-flex-wrap-wrap" *ngIf="selectedWorkRes['container-title'] && selectedWorkRes['container-title'].length > 0">
+                            <p class="section-title pr-1">Publication: </p>
+                            <p>{{selectedWorkRes['container-title']}}<span *ngIf="selectedWorkRes.page"> - Pages: {{selectedWorkRes.page}}</span></p>
+                        </div>
+    
+                        <div class="section-data pr-4 is-flex is-flex-wrap-wrap" *ngIf="selectedWorkRes.publisher">
+                            <p class="section-title pr-1">Publisher: </p>
+                            <p>{{selectedWorkRes.publisher}}</p>
+                        </div>
+    
+                        <div class="section-data pr-4 is-flex is-flex-wrap-wrap" *ngIf="selectedWorkRes.published">
+                            <p class="section-title pr-1">Published: </p>
+                            <p *ngIf="selectedWorkRes.published['date-parts'].length === 1">{{selectedWorkRes.published['date-parts'][0][0]}}</p>
+                            <p *ngIf="selectedWorkRes.published['date-parts'].length !== 1">{{selectedWorkRes.published['date-parts'][0][1]}}/{{selectedWorkRes.published['date-parts'][0][0]}}</p>
+                        </div>
+                    </div>
+
+                    <div class="section-data pr-4 is-flex" *ngIf="selectedWorkRes.type">
+                        <p class="section-title pr-1">Type: </p>
+                        <p>{{selectedWorkRes.type}}</p>
+                    </div>
+
+                    <div class="section-data pr-4 is-flex" *ngIf="selectedWorkRes.language">
+                        <p class="section-title pr-1">Language: </p>
+                        <p>{{selectedWorkRes.language}}</p>
+                    </div>
+
+                    <div class="section-data pr-4 is-flex is-flex-wrap-wrap" *ngIf="selectedWorkRes.abstract" [ngClass]="{'section-data-expanded': expandDialogDesc}">
+                        <p class="section-title pr-1">Description: </p>
+                        <p *ngIf="selectedWorkRes.abstract">{{selectedWorkRes.abstract}}</p>
+                        <p *ngIf="!selectedWorkRes.abstract">No description provided.</p>
+                    </div>
+                    <div class="description-expand" *ngIf="selectedWorkRes.abstract">
+                        <a (click)="expandDialogDesc = !expandDialogDesc"><span *ngIf="!expandDialogDesc">See more</span><span *ngIf="expandDialogDesc">See less</span></a>
+                    </div>
+
+                    <div class="section-data mb-1 p-4 is-flex" *ngIf="selectedWorkRes.subject">
+                        <p [ngClass]="{'section-title-plural':selectedWorkRes.subject.length > 1}"
+                        class="section-title pr-1">Topic<span *ngIf="selectedWorkRes.subject.length > 1">s</span>:</p>
+                        <div class="topics is-flex is-flex-wrap-wrap">
+                            <p class="pr-1" *ngFor="let topic of selectedWorkRes.subject, last as lastIndex">
+                                {{topic}}<span *ngIf="!lastIndex">,</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="dialog-footer" *ngIf="dialogDataLoaded">
+                    <div class="link" *ngIf="selectedWorkRes.URL">
+                        <a  href="{{selectedWorkRes.URL}}" target="_blank">
+                            <button class="button is-responsive">
+                                View more about this {{selectedWorkRes.type}}
+                              </button>
+                        </a>
+                    </div>
+                </div>
+            </p-dialog>
+        </div>
+    </div>
+</div>

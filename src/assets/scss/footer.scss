@@ -1,0 +1,42 @@
+.footer-content {
+    background-color: $accent-color;
+    padding: 3rem;
+    .footer-nav {
+        h5 {
+            color: $black;
+            min-width: 100px;
+        }
+        
+        .socials {
+            color: $black;
+            text-align: center;
+            .social-items {
+                text-align: right;
+            }
+        }
+        .links {
+            text-align: center;
+            .contact-items {
+                text-align: right;
+            }
+
+        }
+        a {
+            color: $white;
+        }
+        .pi {
+            font-size: 1.25rem;
+        }
+    }
+    .description {
+        color: $primary-color;
+        p {
+            font-size: 1rem;
+            text-align: center;
+            font-style: italic;
+        }
+    }
+    .copyright {
+        color: $primary-color;
+    }
+}
